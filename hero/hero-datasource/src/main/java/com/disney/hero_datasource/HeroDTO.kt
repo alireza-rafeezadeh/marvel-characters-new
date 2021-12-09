@@ -1,5 +1,7 @@
 package com.disney.hero_datasource
 
+import com.disney.hero_domain.*
+
 data class HerosDTO(
     val attributionHTML: String,
     val attributionText: String,
@@ -32,61 +34,14 @@ data class Result(
     val urls: List<Url>
 )
 
-data class Comics(
-    val available: Int,
-    val collectionURI: String,
-    val items: List<Item>,
-    val returned: Int
-)
 
-data class Events(
-    val available: Int,
-    val collectionURI: String,
-    val items: List<ItemX>,
-    val returned: Int
-)
-
-data class Series(
-    val available: Int,
-    val collectionURI: String,
-    val items: List<ItemXX>,
-    val returned: Int
-)
-
-data class Stories(
-    val available: Int,
-    val collectionURI: String,
-    val items: List<ItemXXX>,
-    val returned: Int
-)
-
-data class Thumbnail(
-    val extension: String,
-    val path: String
-)
-
-data class Url(
-    val type: String,
-    val url: String
-)
-
-data class Item(
-    val name: String,
-    val resourceURI: String
-)
-
-data class ItemX(
-    val name: String,
-    val resourceURI: String
-)
-
-data class ItemXX(
-    val name: String,
-    val resourceURI: String
-)
-
-data class ItemXXX(
-    val name: String,
-    val resourceURI: String,
-    val type: String
-)
+fun Result.toHero() =
+    Hero(
+        comics = comics,
+        description = description,
+        events = events,
+        id = id,
+        series = series,
+        thumbnail = thumbnail,
+        urls = urls
+    )
