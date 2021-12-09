@@ -8,3 +8,12 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Marvel Characters"
 include ':app'
+include ':core'
+include ':hero'
+include ':hero:hero-datasource'
+include ':hero:hero-datasource-test'
+include ':hero:hero-domain'
+include ':hero:ui-heroList'
+include ':hero:hero-interactors'
+include ':constants'
+include ':components'
