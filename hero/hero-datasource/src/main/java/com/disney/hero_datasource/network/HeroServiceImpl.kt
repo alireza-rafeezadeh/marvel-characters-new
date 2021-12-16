@@ -12,7 +12,7 @@ class HeroServiceImpl(private val httpClient: HttpClient) : HeroService {
     override suspend fun getHeroStats(): List<Hero> {
 
         return httpClient.get<HerosDTO>(){
-            url(EndPoints.CHARACTERS)
+            url(EndPoints.HERO_STATS)
         }.data.results.map {
             it.toHero()
         }

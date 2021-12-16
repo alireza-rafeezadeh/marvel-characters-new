@@ -41,7 +41,23 @@ fun MarvelCharactersTheme(
     MaterialTheme(
         colors = colors,
         typography = Typography,
-        shapes = Shapes,
+        shapes = AppShapes,
+        content = content
+    )
+}
+
+@Composable
+fun DotaInfoTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+    val colors = if(darkTheme){
+        DarkColorPalette
+    } else{
+        LightColorPalette
+    }
+
+    MaterialTheme(
+        colors = colors,
+        typography = QuickSandTypography,
+        shapes = AppShapes,
         content = content
     )
 }

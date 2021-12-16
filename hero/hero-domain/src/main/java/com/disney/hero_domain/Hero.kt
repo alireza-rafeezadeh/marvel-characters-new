@@ -1,5 +1,7 @@
 package com.disney.hero_domain
 
+import kotlinx.serialization.Serializable
+
 data class Hero(
     val comics: Comics,
     val description: String,
@@ -14,6 +16,7 @@ data class Hero(
     val urls: List<Url>
 )
 
+@Serializable
 data class Comics(
     val available: Int,
     val collectionURI: String,
@@ -21,6 +24,7 @@ data class Comics(
     val returned: Int
 )
 
+@Serializable
 data class Events(
     val available: Int,
     val collectionURI: String,
@@ -28,6 +32,7 @@ data class Events(
     val returned: Int
 )
 
+@Serializable
 data class Series(
     val available: Int,
     val collectionURI: String,
@@ -35,6 +40,7 @@ data class Series(
     val returned: Int
 )
 
+@Serializable
 data class Stories(
     val available: Int,
     val collectionURI: String,
@@ -42,16 +48,19 @@ data class Stories(
     val returned: Int
 )
 
+@Serializable
 data class Thumbnail(
     val extension: String,
     val path: String
 )
 
+@Serializable
 data class Url(
     val type: String,
     val url: String
 )
 
+@Serializable
 data class Item(
     val name: String,
     val resourceURI: String

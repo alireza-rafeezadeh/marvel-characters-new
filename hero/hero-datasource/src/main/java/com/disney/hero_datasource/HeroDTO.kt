@@ -1,7 +1,9 @@
 package com.disney.hero_datasource
 
 import com.disney.hero_domain.*
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class HerosDTO(
     val attributionHTML: String,
     val attributionText: String,
@@ -12,6 +14,7 @@ data class HerosDTO(
     val status: String
 )
 
+@Serializable
 data class Data(
     val count: Int,
     val limit: Int,
@@ -20,6 +23,7 @@ data class Data(
     val total: Int
 )
 
+@Serializable
 data class Result(
     val comics: Comics,
     val description: String,
