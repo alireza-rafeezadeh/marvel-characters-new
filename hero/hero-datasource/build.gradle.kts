@@ -3,6 +3,7 @@ apply {
 }
 
 plugins {
+    kotlin(KotlinPlugins.serialization) version Kotlin.version
     id(SqlDelight.plugin)
 }
 
@@ -17,3 +18,9 @@ dependencies {
 }
 
 
+sqldelight {
+    database("HeroDatabase") {
+        packageName = "com.disney.hero_datasource.cache"
+        sourceFolders = listOf("sqldelight")
+    }
+}
