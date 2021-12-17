@@ -59,6 +59,8 @@ dependencies {
     implementation (AndroidX.appCompat)
     implementation (AndroidX.lifeCycleRuntime)
 
+    implementation(Coil.coil)
+
     implementation (Compose.ui)
     implementation (Compose.material)
     implementation (Compose.tooling)

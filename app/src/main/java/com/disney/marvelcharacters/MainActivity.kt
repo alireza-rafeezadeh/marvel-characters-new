@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
+import coil.ImageLoader
 import com.disney.core.*
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.HeroInteractors
@@ -41,9 +42,19 @@ class MainActivity : ComponentActivity() {
 
     private val heros: MutableState<List<Hero>> = mutableStateOf(listOf())
     private val progressBarState: MutableState<ProgressBarState> = mutableStateOf(ProgressBarState.Idle)
+    private lateinit var imageLoader: ImageLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        imageLoader = ImageLoader.Builder(applicationContext)
+            .error(R.drawable.ic_launcher_foreground)
+            .placeholder(R.drawable.ic_launcher_background)
+            .availableMemoryPercentage(0.25)
+            .crossfade(true)
+            .build()
+
 
         val getHeros = HeroInteractors.build().getHeros
         val logger = Logger("GetHerosTest")
@@ -70,7 +81,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MarvelCharactersTheme {
-                HeroList(heros, progressBarState)
+                HeroList(heros, progressBarState,imageLoader)
             }
         }
     }
