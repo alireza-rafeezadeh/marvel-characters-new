@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
     private val progressBarState: MutableState<ProgressBarState> = mutableStateOf(ProgressBarState.Idle)
     private lateinit var imageLoader: ImageLoader
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
