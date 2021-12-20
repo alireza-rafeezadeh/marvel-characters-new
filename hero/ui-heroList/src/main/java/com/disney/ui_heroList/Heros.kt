@@ -1,5 +1,6 @@
-package com.disney.marvelcharacters.ui
+package com.disney.ui_heroList
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +17,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.disney.core.ProgressBarState
 import com.disney.hero_domain.Hero
+import com.disney.hero_domain.getMediumSizeFullPath
 
 @ExperimentalCoilApi
 @Composable
@@ -37,20 +39,26 @@ fun HeroList(
 
             items(heroes.value) {
 
-                Column {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Log.i("hero_thumb", "HeroList: ${it.thumbnail.getMediumSizeFullPath()}")
                     val painter = rememberImagePainter(
-                        "http://x.annihil.us/u/prod/marvel/i/mg/3/40/4bb4680432f73/portrait_fantastic.jpg",
+                        it.thumbnail.getMediumSizeFullPath(),
                         imageLoader = imageLoader,
 //                        builder = {
 //                            placeholder(R)
 //                        }
                     )
-                    Text(text = it.urls.toString(), color = Color.Red)
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Text(text = it.urls.toString(), color = Color.Red,
+                        modifier = Modifier.weight(2f)
+                        )
+//                    Spacer(modifier = Modifier.height(32.dp))
+
+
                     Image(
                         modifier = Modifier
-                            .width(70.dp)
-                            .height(130.dp)
+//                            .width(200.dp)
+                            .height(220.dp)
+                            .weight(2f)
                         ,
                         painter = painter,
                         contentDescription = "description goes here",

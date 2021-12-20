@@ -54,9 +54,8 @@ data class Thumbnail(
     val path: String
 )
 
-fun Thumbnail.getMediumSizeFullPath() {
-    "${path}/portrait_medium.${extension}"
-}
+fun Thumbnail.getMediumSizeFullPath() = "${path}/portrait_large.${extension}"
+
 
 @Serializable
 data class Url(

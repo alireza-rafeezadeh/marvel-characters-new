@@ -7,7 +7,9 @@ dependencies {
     "implementation"(project(Modules.heroDomain))
     "implementation"(project(Modules.heroInteractors))
 
-    "implementation"(Coil.coil)
+    "api"(Coil.coil)
 
     "implementation"(SqlDelight.androidDriver)
+
+    "api" ("com.github.skydoves:landscapist-glide:1.4.4")
 }

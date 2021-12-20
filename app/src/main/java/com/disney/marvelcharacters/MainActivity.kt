@@ -12,8 +12,8 @@ import coil.ImageLoader
 import com.disney.core.*
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.HeroInteractors
-import com.disney.marvelcharacters.ui.HeroList
 import com.disney.marvelcharacters.ui.theme.MarvelCharactersTheme
+import com.disney.ui_heroList.HeroList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.launchIn
@@ -83,6 +83,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             MarvelCharactersTheme {
                 HeroList(heros, progressBarState,imageLoader)
+
+                /*GlideImage(
+                    imageModel = "https://x.annihil.us/u/prod/marvel/i/mg/3/40/4bb4680432f73/portrait_small.jpg",
+                    // Crop, Fit, Inside, FillHeight, FillWidth, None
+                    contentScale = ContentScale.Fit,
+                    // shows an image with a circular revealed animation.
+                    circularReveal = CircularReveal(duration = 250),
+                    // shows a placeholder ImageBitmap when loading.
+//                        placeHolder = ImageBitmap.imageResource(R.drawable.placeholder),
+//                        // shows an error ImageBitmap when the request failed.
+//                        error = ImageBitmap.imageResource(R.drawable.error)
+                    modifier = Modifier
+                        .width(70.dp)
+                        .height(130.dp)
+                    ,
+                )*/
             }
         }
     }
