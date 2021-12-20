@@ -41,6 +41,7 @@ data class Result(
 
 fun Result.toHero() =
     Hero(
+        name = name,
         comics = comics,
         description = description,
         events = events,

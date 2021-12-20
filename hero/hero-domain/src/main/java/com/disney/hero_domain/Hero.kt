@@ -8,7 +8,7 @@ data class Hero(
     val events: Events,
     val id: Int,
 //    val modified: String,
-//    val name: String,
+    val name: String,
 //    val resourceURI: String,
     val series: Series,
 //    val stories: Stories,
@@ -54,7 +54,7 @@ data class Thumbnail(
     val path: String
 )
 
-fun Thumbnail.getMediumSizeFullPath() = "${path}/portrait_large.${extension}"
+fun Thumbnail.getImageFullPath() = "${path}/portrait_incredible.${extension}"
 
 
 @Serializable
