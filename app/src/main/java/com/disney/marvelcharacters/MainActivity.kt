@@ -8,12 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
 import com.disney.core.*
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.HeroInteractors
 import com.disney.marvelcharacters.ui.theme.MarvelCharactersTheme
 import com.disney.ui_heroList.HeroList
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.launchIn
@@ -38,10 +41,13 @@ import kotlinx.coroutines.flow.onEach
 //}
 //
 
+@ExperimentalCoilApi
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val heros: MutableState<List<Hero>> = mutableStateOf(listOf())
-    private val progressBarState: MutableState<ProgressBarState> = mutableStateOf(ProgressBarState.Idle)
+    private val progressBarState: MutableState<ProgressBarState> =
+        mutableStateOf(ProgressBarState.Idle)
     private lateinit var imageLoader: ImageLoader
 
 
@@ -60,9 +66,9 @@ class MainActivity : ComponentActivity() {
         val getHeros = HeroInteractors.build().getHeros
         val logger = Logger("GetHerosTest")
         getHeros.execute().onEach { dataState ->
-            when(dataState){
+            when (dataState) {
                 is Response -> {
-                    when(dataState.uiComponent){
+                    when (dataState.uiComponent) {
                         is UIComponent.Dialog -> {
                             logger.log((dataState.uiComponent as UIComponent.Dialog).description)
                         }
@@ -72,7 +78,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 is Data -> {
-                    heros.value = dataState.data?: listOf()
+                    heros.value = dataState.data ?: listOf()
                 }
                 is Loading -> {
                     progressBarState.value = dataState.progressBarState // todo: uncomment
@@ -80,9 +86,23 @@ class MainActivity : ComponentActivity() {
             }
         }.launchIn(CoroutineScope(IO))
 
+
         setContent {
             MarvelCharactersTheme {
-                HeroList(heros, progressBarState,imageLoader)
+
+//                val viewModel: HeroListViewModel = viewModel()
+                val viewModel: HeroListViewModel = hiltViewModel()
+
+                viewModel.getHeroes()
+
+                HeroList(heros, progressBarState, imageLoader)
+
+                /*
+                HeroList(
+                    heroes = viewModel.heros,
+                    progressBarState = progressBarState,
+                    imageLoader = imageLoader
+                )*/
 
                 /*GlideImage(
                     imageModel = "https://x.annihil.us/u/prod/marvel/i/mg/3/40/4bb4680432f73/portrait_small.jpg",

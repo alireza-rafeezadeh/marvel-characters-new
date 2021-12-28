@@ -68,6 +68,7 @@ dependencies {
     implementation (Compose.material)
     implementation (Compose.tooling)
     implementation (Compose.activity)
+    implementation (Compose.hiltNavigation)
 
     implementation (Google.material)
 
@@ -79,4 +80,8 @@ dependencies {
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 //    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 //    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+}
+
+kapt {
+    correctErrorTypes = true
 }
