@@ -1,6 +1,8 @@
 plugins {
     id ("com.android.application")
     kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -68,6 +70,9 @@ dependencies {
     implementation (Compose.activity)
 
     implementation (Google.material)
+
+    implementation (Hilt.android)
+    kapt(Hilt.compiler)
 
 //    testImplementation 'junit:junit:4.+'
 //    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
