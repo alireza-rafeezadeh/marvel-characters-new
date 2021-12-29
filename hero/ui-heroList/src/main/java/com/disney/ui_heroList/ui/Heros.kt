@@ -1,4 +1,4 @@
-package com.disney.ui_heroList
+package com.disney.ui_heroList.ui
 
 import android.util.Log
 import androidx.compose.foundation.Image

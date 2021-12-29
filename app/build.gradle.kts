@@ -1,7 +1,7 @@
 plugins {
     id ("com.android.application")
     kotlin("android")
-    kotlin("kapt")
+    id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
 
@@ -60,7 +60,7 @@ dependencies {
 
     implementation (AndroidX.coreKtx)
     implementation (AndroidX.appCompat)
-    implementation (AndroidX.lifeCycleRuntime)
+    implementation (AndroidX.lifecycleVmKtx)
 
     implementation(Coil.coil)
 
@@ -68,12 +68,20 @@ dependencies {
     implementation (Compose.material)
     implementation (Compose.tooling)
     implementation (Compose.activity)
+    implementation (Compose.navigation)
     implementation (Compose.hiltNavigation)
 
     implementation (Google.material)
 
     implementation (Hilt.android)
     kapt(Hilt.compiler)
+
+
+
+    implementation(SqlDelight.androidDriver)
+
+
+
 
 //    testImplementation 'junit:junit:4.+'
 //    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -82,6 +90,10 @@ dependencies {
 //    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 }
 
-kapt {
-    correctErrorTypes = true
-}
+
+
+
+
+//kapt {
+//    correctErrorTypes = true
+//}

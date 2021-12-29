@@ -9,18 +9,21 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import com.disney.core.*
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.HeroInteractors
 import com.disney.marvelcharacters.ui.theme.MarvelCharactersTheme
-import com.disney.ui_heroList.HeroList
+import com.disney.ui_heroList.di.EmptyTest
+import com.disney.ui_heroList.ui.HeroList
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 //class MainActivity : ComponentActivity() {
 //
@@ -50,6 +53,11 @@ class MainActivity : ComponentActivity() {
         mutableStateOf(ProgressBarState.Idle)
     private lateinit var imageLoader: ImageLoader
 
+    @Inject
+    lateinit var emptyTest: EmptyTest
+
+    @Inject
+    lateinit var myNewViewModel: MyNewViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,9 +99,14 @@ class MainActivity : ComponentActivity() {
             MarvelCharactersTheme {
 
 //                val viewModel: HeroListViewModel = viewModel()
-                val viewModel: HeroListViewModel = hiltViewModel()
+//
+//                val viewModel: HeroListViewModel = hiltViewModel()
+//                viewModel.getHeroes()
 
-                viewModel.getHeroes()
+//                myNewViewModel.test()
+
+                emptyTest.testingTest()
+                myNewViewModel.test()
 
                 HeroList(heros, progressBarState, imageLoader)
 
@@ -131,10 +144,10 @@ fun Greeting(name: String) {
     Text(text = "Hello $name!")
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MarvelCharactersTheme {
-        Greeting("Android")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    MarvelCharactersTheme {
+//        Greeting("Android")
+//    }
+//}

@@ -13,14 +13,13 @@ dependencies {
     "implementation"(Ktor.core)
     "implementation"(Ktor.clientSerialization)
     "implementation"(Ktor.android)
-    "implementation"(SqlDelight.runtime)
-//    ds
-}
 
+    "implementation"(SqlDelight.runtime)
+}
 
 sqldelight {
     database("HeroDatabase") {
-        packageName = "com.disney.hero_datasource.cache"
+        packageName = "com.codingwithmitch.hero_datasource.cache"
         sourceFolders = listOf("sqldelight")
     }
 }
