@@ -1,16 +1,13 @@
 package com.disney.marvelcharacters
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -21,6 +18,7 @@ import coil.annotation.ExperimentalCoilApi
 import com.disney.core.*
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.HeroInteractors
+import com.disney.marvelcharacters.di.heroList.HeroListViewModel
 import com.disney.marvelcharacters.ui.navigation.Screen
 import com.disney.marvelcharacters.ui.theme.MarvelCharactersTheme
 import com.disney.ui_heroDetail.HeroDetail
@@ -62,9 +60,6 @@ class MainActivity : ComponentActivity() {
     private lateinit var imageLoader: ImageLoader
 
     @Inject
-    lateinit var emptyTest: EmptyTest
-
-    @Inject
     lateinit var myNewViewModel: MyNewViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +76,7 @@ class MainActivity : ComponentActivity() {
 
         val getHeros = HeroInteractors.build().getHeros
         val logger = Logger("GetHerosTest")
-        getHeros.execute().onEach { dataState ->
+        /*getHeros.execute().onEach { dataState ->
             when (dataState) {
                 is Response -> {
                     when (dataState.uiComponent) {
@@ -100,7 +95,7 @@ class MainActivity : ComponentActivity() {
                     progressBarState.value = dataState.progressBarState // todo: uncomment
                 }
             }
-        }.launchIn(CoroutineScope(IO))
+        }.launchIn(CoroutineScope(IO))*/
 
 
         setContent {
@@ -113,7 +108,7 @@ class MainActivity : ComponentActivity() {
 
 //                myNewViewModel.test()
 
-                emptyTest.testingTest()
+
                 myNewViewModel.test()
 
                 val navController = rememberNavController()
@@ -122,6 +117,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = Screen.HeroList.route,
                     builder = {
+
                         addHeroList(navController)
 
                         addHeroDetail()
@@ -155,6 +151,23 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+
+    private fun NavGraphBuilder.addHeroList(navController: NavHostController) {
+
+        // ToDo: use the viewmodel here
+        composable(route = Screen.HeroList.route) {
+            val heroListViewModel : HeroListViewModel = hiltViewModel()
+            HeroList(
+                heroes = heroListViewModel.heros,
+                progressBarState = progressBarState,
+                imageLoader = imageLoader,
+                navigateToDetail = { heroId ->
+                    navController.navigate("${Screen.HeroDetail.route}/$heroId")
+                })
+        }
+    }
+
     private fun NavGraphBuilder.addHeroDetail() {
         composable(
             //ToDo: extract a string from this hero Id
@@ -162,20 +175,6 @@ class MainActivity : ComponentActivity() {
             arguments = Screen.HeroDetail.arguments
         ) { navBackStackEntry ->
             HeroDetail(navBackStackEntry.arguments?.getInt("heroId") as Int)
-        }
-    }
-
-    private fun NavGraphBuilder.addHeroList(navController: NavHostController) {
-
-        // ToDo: use the viewmodel here
-        composable(route = Screen.HeroList.route) {
-            HeroList(
-                heroes = heros,
-                progressBarState = progressBarState,
-                imageLoader = imageLoader,
-                navigateToDetail = { heroId ->
-                    navController.navigate("${Screen.HeroDetail.route}/$heroId")
-                })
         }
     }
 

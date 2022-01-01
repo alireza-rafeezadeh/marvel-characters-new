@@ -1,8 +1,7 @@
-package com.disney.marvelcharacters
+package com.disney.marvelcharacters.di.heroList
 
 import com.disney.hero_interactors.GetHeros
 import com.disney.hero_interactors.HeroInteractors
-import com.disney.ui_heroList.di.EmptyTest
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,16 +14,8 @@ object HeroListModule {
 
     @Provides
     @Singleton
-    fun providesGetHeros(
-    ) : GetHeros = HeroInteractors.build().getHeros
-
-
-    @Provides
-    @Singleton
-    fun providesEmptyTest(
-    ) : EmptyTest = EmptyTest()
-
-
+    fun providesGetHeros( heroInteractors : HeroInteractors
+    ) : GetHeros = heroInteractors.getHeros
 
 }
 
