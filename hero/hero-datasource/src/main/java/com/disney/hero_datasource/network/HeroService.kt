@@ -12,6 +12,8 @@ interface HeroService {
 
     suspend fun getHeroStats(): List<Hero>
 
+    suspend fun getSingleHeroById() : Hero
+
     companion object Factory {
         fun build(): HeroService {
             return HeroServiceImpl(

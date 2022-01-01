@@ -13,10 +13,30 @@ class HeroServiceImpl(private val httpClient: HttpClient) : HeroService {
 
         return httpClient.get<HerosDTO>(){
             url(EndPoints.HERO_STATS)
+            addQueryParams()
         }.data.results.map {
             it.toHero()
         }
     }
 
 
+
+    override suspend fun getSingleHeroById(): Hero {
+
+        return httpClient.get<HerosDTO>(){
+            url(EndPoints.HERO_SINGLE, path = "fghg")
+        }.data.results.map {
+            it.toHero()
+        }[0]
+    }
+
+
+}
+
+
+
+private fun HttpRequestBuilder.addQueryParams() {
+    parameter("apikey", ApiParameters.API_KEY)
+    parameter("hash", ApiParameters.HASH)
+    parameter("ts", ApiParameters.TS)
 }
