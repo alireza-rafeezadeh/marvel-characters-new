@@ -3,6 +3,7 @@ package com.disney.ui_heroList.ui
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -30,7 +31,8 @@ import com.disney.ui_herolist.R
 fun HeroList(
     heroes: MutableState<List<Hero>>,
     progressBarState: MutableState<ProgressBarState>,
-    imageLoader: ImageLoader
+    imageLoader: ImageLoader,
+    navigateToDetail : (Int) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -48,12 +50,15 @@ fun HeroList(
 
             items(heroes.value) {
 
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(color = colorResource(id = R.color.card_background))
-                    .padding(16.dp)
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(color = colorResource(id = R.color.card_background))
+                        .padding(16.dp)
+                        .clickable {
+                            navigateToDetail(it.id)
+                        }
                 ) {
                     Log.i("hero_thumb", "HeroList: ${it.thumbnail.getImageFullPath()}")
                     val painter = rememberImagePainter(

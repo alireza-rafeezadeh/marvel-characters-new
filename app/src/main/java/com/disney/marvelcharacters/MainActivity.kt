@@ -1,6 +1,7 @@
 package com.disney.marvelcharacters
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Text
@@ -119,11 +120,22 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = Screen.HeroList.route,
                     builder = {
-                        composable(route = Screen.HeroList.route){
-                            HeroList(heros, progressBarState, imageLoader)
+                        composable(route = Screen.HeroList.route) {
+                            HeroList(
+                                heroes = heros,
+                                progressBarState = progressBarState,
+                                imageLoader = imageLoader,
+                                navigateToDetail = { heroId ->
+                                    navController.navigate("${Screen.HeroDetail.route}/$heroId")
+                                })
                         }
-                        composable(route = Screen.HeroDetail.route){
-                            HeroDetail(10)
+                        //ToDo: extract a string from this hero Id
+                        composable(
+                            route = Screen.HeroDetail.route + "/{heroId}",
+                            arguments = Screen.HeroDetail.arguments
+                        ) {
+                                navBackStackEntry ->
+                            HeroDetail(navBackStackEntry.arguments?.getInt("heroId") as Int)
                         }
                     }
                 )
