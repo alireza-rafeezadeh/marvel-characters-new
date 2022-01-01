@@ -10,12 +10,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import com.disney.core.*
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.HeroInteractors
+import com.disney.marvelcharacters.ui.navigation.Screen
 import com.disney.marvelcharacters.ui.theme.MarvelCharactersTheme
+import com.disney.ui_heroDetail.HeroDetail
 import com.disney.ui_heroList.di.EmptyTest
 import com.disney.ui_heroList.ui.HeroList
 import dagger.hilt.android.AndroidEntryPoint
@@ -108,7 +113,21 @@ class MainActivity : ComponentActivity() {
                 emptyTest.testingTest()
                 myNewViewModel.test()
 
-                HeroList(heros, progressBarState, imageLoader)
+                val navController = rememberNavController()
+                
+                NavHost(
+                    navController = navController,
+                    startDestination = Screen.HeroList.route,
+                    builder = {
+                        composable(route = Screen.HeroList.route){
+                            HeroList(heros, progressBarState, imageLoader)
+                        }
+                        composable(route = Screen.HeroDetail.route){
+                            HeroDetail(10)
+                        }
+                    }
+                )
+
 
                 /*
                 HeroList(

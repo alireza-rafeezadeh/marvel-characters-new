@@ -5,6 +5,7 @@
       <module name="Marvel_Characters.app" target="11" />
       <module name="Marvel_Characters.buildSrc" target="11" />
       <module name="Marvel_Characters.components" target="11" />
+      <module name="Marvel_Characters.hero.ui-heroDetail" target="11" />
       <module name="Marvel_Characters.hero.ui-heroList" target="11" />
     </bytecodeTargetLevel>
   </component>
