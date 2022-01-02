@@ -174,7 +174,7 @@ class MainActivity : ComponentActivity() {
             val viewModel : HeroDetailViewModel = hiltViewModel()
             val id = navBackStackEntry.arguments?.getInt("heroId") as Int
             viewModel.getSingleHero(id)
-            HeroDetail(id , viewModel.singleHero)
+            HeroDetail(id , viewModel.singleHero, imageLoader)
         }
     }
 

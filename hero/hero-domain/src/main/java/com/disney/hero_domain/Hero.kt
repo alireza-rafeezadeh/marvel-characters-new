@@ -55,6 +55,7 @@ data class Thumbnail(
 )
 
 fun Thumbnail.getImageFullPath() = "${path}/portrait_incredible.${extension}"
+fun Thumbnail.getLandscapeImageFullPath() = "${path}/landscape_incredible.${extension}"
 
 
 @Serializable
