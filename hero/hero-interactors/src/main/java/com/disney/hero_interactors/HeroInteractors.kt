@@ -5,6 +5,7 @@ import com.disney.hero_datasource.network.HeroService
 
 data class HeroInteractors(
     val getHeros: GetHeros,
+    val getSingleHeroById :GetSingleHeroById
     // TODO(Add other hero interactors)
 ) {
     companion object Factory {
@@ -14,6 +15,7 @@ data class HeroInteractors(
                 getHeros = GetHeros(
                     service = service,
                 ),
+                getSingleHeroById = GetSingleHeroById(service)
             )
         }
     }

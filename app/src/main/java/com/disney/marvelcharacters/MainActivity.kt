@@ -18,17 +18,13 @@ import coil.annotation.ExperimentalCoilApi
 import com.disney.core.*
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.HeroInteractors
+import com.disney.marvelcharacters.di.heroDetail.HeroDetailViewModel
 import com.disney.marvelcharacters.di.heroList.HeroListViewModel
 import com.disney.marvelcharacters.ui.navigation.Screen
 import com.disney.marvelcharacters.ui.theme.MarvelCharactersTheme
 import com.disney.ui_heroDetail.HeroDetail
-import com.disney.ui_heroList.di.EmptyTest
 import com.disney.ui_heroList.ui.HeroList
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 //class MainActivity : ComponentActivity() {
@@ -170,11 +166,15 @@ class MainActivity : ComponentActivity() {
 
     private fun NavGraphBuilder.addHeroDetail() {
         composable(
+
             //ToDo: extract a string from this hero Id
             route = Screen.HeroDetail.route + "/{heroId}",
             arguments = Screen.HeroDetail.arguments
         ) { navBackStackEntry ->
-            HeroDetail(navBackStackEntry.arguments?.getInt("heroId") as Int)
+            val viewModel : HeroDetailViewModel = hiltViewModel()
+            val id = navBackStackEntry.arguments?.getInt("heroId") as Int
+            viewModel.getSingleHero(id)
+            HeroDetail(id , viewModel.singleHero)
         }
     }
 

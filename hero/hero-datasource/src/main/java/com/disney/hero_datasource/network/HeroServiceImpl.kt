@@ -19,18 +19,14 @@ class HeroServiceImpl(private val httpClient: HttpClient) : HeroService {
         }
     }
 
-
-
-    override suspend fun getSingleHeroById(): Hero {
-
+    override suspend fun getSingleHeroById(id : Int): Hero {
         return httpClient.get<HerosDTO>(){
-            url(EndPoints.HERO_SINGLE, path = "fghg")
+            url(EndPoints.HERO_SINGLE + "/${id}")
+            addQueryParams()
         }.data.results.map {
             it.toHero()
         }[0]
     }
-
-
 }
 
 
