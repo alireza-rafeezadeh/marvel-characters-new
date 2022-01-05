@@ -76,14 +76,79 @@ fun HeroDetail(id: Int, singleHero: MutableState<Hero?>, imageLoader: ImageLoade
                 items(list) { comic ->
                     Box(
                         modifier = Modifier
-                            .border(width = 1.dp, color = Color.Red)
-                            .fillMaxHeight(0.3f)
+                            .border(width = 1.dp, color = Color.Gray)
+                            .height(130.dp)
                             .width(160.dp)
 
 //                        .height(45.dp)
                     ) {
                         Text(
                             text = comic.name,
+                            modifier = Modifier.align(alignment = Alignment.Center),
+                            style = TextStyle(fontSize = 13.sp, textAlign = TextAlign.Center)
+
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                }
+            }
+        }
+
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        /*Text(text = "Events")
+        Spacer(modifier = Modifier.height(4.dp))
+
+        LazyRow() {
+            singleHero.value?.events?.items?.let { list ->
+                items(list) { event ->
+                    Box(
+                        modifier = Modifier
+                            .border(width = 1.dp, color = Color.Gray)
+                            .fillMaxHeight(0.3f)
+                            .width(160.dp)
+
+//                        .height(45.dp)
+                    ) {
+                        Text(
+                            text = event.name,
+                            modifier = Modifier.align(alignment = Alignment.Center),
+                            style = TextStyle(fontSize = 13.sp, textAlign = TextAlign.Center)
+
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                }
+            }
+        }*/
+
+
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Text(text = "Series")
+        Spacer(modifier = Modifier.height(4.dp))
+
+        LazyRow() {
+            singleHero.value?.series?.items?.let { list ->
+                items(list) { series ->
+                    Box(
+                        modifier = Modifier
+                            .border(width = 1.dp, color = Color.Gray)
+                            .height(130.dp)
+                            .width(160.dp)
+
+//                        .height(45.dp)
+                    ) {
+                        Text(
+                            text = series.name,
                             modifier = Modifier.align(alignment = Alignment.Center),
                             style = TextStyle(fontSize = 13.sp, textAlign = TextAlign.Center)
 
