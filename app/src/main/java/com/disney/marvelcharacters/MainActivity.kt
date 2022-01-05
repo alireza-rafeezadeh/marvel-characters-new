@@ -3,15 +3,27 @@ package com.disney.marvelcharacters
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
@@ -108,17 +120,47 @@ class MainActivity : ComponentActivity() {
                 myNewViewModel.test()
 
                 val navController = rememberNavController()
-                
-                NavHost(
-                    navController = navController,
-                    startDestination = Screen.HeroList.route,
-                    builder = {
 
-                        addHeroList(navController)
-
-                        addHeroDetail()
-                    }
+                val items = listOf(
+                    Screen.HeroList,
+                    Screen.HeroDetail,
                 )
+
+                Scaffold(bottomBar = {
+                    BottomNavigation(
+                        backgroundColor = colorResource(id = R.color.red)
+                    ) {
+                        
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
+                        items.forEach { screen ->
+                            BottomNavigationItem(
+                                icon = { Icon(painter = painterResource(id = R.drawable.ic_star), contentDescription = null, tint = Color.White) },
+//                                label = { Text("") },
+                                selected = currentDestination?.hierarchy?.any {
+                                    it.route == screen.route
+                                } == true,
+                                onClick = {
+                                    navController.navigate(screen.route)
+                                })
+
+
+                        }
+                    }
+                }) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.HeroList.route,
+                        builder = {
+
+                            addHeroList(navController)
+
+                            addHeroDetail()
+                        }
+                    )
+                }
+
+
 
 
                 /*
@@ -148,12 +190,11 @@ class MainActivity : ComponentActivity() {
     }
 
 
-
     private fun NavGraphBuilder.addHeroList(navController: NavHostController) {
 
         // ToDo: use the viewmodel here
         composable(route = Screen.HeroList.route) {
-            val heroListViewModel : HeroListViewModel = hiltViewModel()
+            val heroListViewModel: HeroListViewModel = hiltViewModel()
             HeroList(
                 heroes = heroListViewModel.heros,
                 progressBarState = progressBarState,
@@ -171,10 +212,10 @@ class MainActivity : ComponentActivity() {
             route = Screen.HeroDetail.route + "/{heroId}",
             arguments = Screen.HeroDetail.arguments
         ) { navBackStackEntry ->
-            val viewModel : HeroDetailViewModel = hiltViewModel()
+            val viewModel: HeroDetailViewModel = hiltViewModel()
             val id = navBackStackEntry.arguments?.getInt("heroId") as Int
             viewModel.getSingleHero(id)
-            HeroDetail(id , viewModel.singleHero, imageLoader)
+            HeroDetail(id, viewModel.singleHero, imageLoader)
         }
     }
 
