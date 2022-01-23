@@ -3,20 +3,14 @@ package com.disney.marvelcharacters
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraphBuilder
@@ -27,7 +21,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
-import com.disney.core.*
+import com.disney.core.Logger
+import com.disney.core.ProgressBarState
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.HeroInteractors
 import com.disney.marvelcharacters.di.heroDetail.HeroDetailViewModel
@@ -196,7 +191,7 @@ class MainActivity : ComponentActivity() {
         composable(route = Screen.HeroList.route) {
             val heroListViewModel: HeroListViewModel = hiltViewModel()
             HeroList(
-                heroes = heroListViewModel.heros,
+                state = heroListViewModel.state.value,
                 progressBarState = progressBarState,
                 imageLoader = imageLoader,
                 navigateToDetail = { heroId ->

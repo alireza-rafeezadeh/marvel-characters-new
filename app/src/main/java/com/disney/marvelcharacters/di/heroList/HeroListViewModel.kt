@@ -6,9 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.disney.core.*
-import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.GetHeros
-import com.disney.hero_interactors.HeroInteractors
+import com.disney.ui_heroList.ui.HeroListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,7 +20,7 @@ class HeroListViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    val heros: MutableState<List<Hero>> = mutableStateOf(listOf())
+    val state: MutableState<HeroListState> = mutableStateOf(HeroListState())
 
 
     init {
@@ -46,10 +45,10 @@ class HeroListViewModel @Inject constructor(
                     }
                 }
                 is Data -> {
-                    heros.value = dataState.data?: listOf()
+                    state.value = state.value.copy(heroes = dataState.data?: listOf())
                 }
                 is Loading -> {
-//                    heros.value = heros.value.copy // todo: uncomment
+                    state.value = state.value.copy(progressBarState = dataState.progressBarState)
                 }
             }
         }.launchIn(viewModelScope)
