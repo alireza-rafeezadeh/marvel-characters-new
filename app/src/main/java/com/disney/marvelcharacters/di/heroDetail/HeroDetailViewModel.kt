@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.disney.core.*
 import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.GetSingleHeroById
+import com.disney.ui_heroDetail.ui.HeroDetailEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,7 +22,16 @@ class HeroDetailViewModel @Inject constructor(private val getSingleHeroById : Ge
 
 
 
-    fun getSingleHero(id : Int) {
+    fun onTriggerEvent(event : HeroDetailEvents) {
+        when(event) {
+            is HeroDetailEvents.GetSingleHero -> {
+                getSingleHero(event.id)
+            }
+        }
+    }
+
+
+    private fun getSingleHero(id : Int) {
         Log.i("get_heros_tg", "getHeroes! ")
         val logger = Logger("GetHerosTest")
         getSingleHeroById.execute(id).onEach { dataState ->
