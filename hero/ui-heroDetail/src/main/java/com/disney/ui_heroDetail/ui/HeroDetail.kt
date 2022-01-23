@@ -1,4 +1,4 @@
-package com.disney.ui_heroDetail
+package com.disney.ui_heroDetail.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -24,7 +24,7 @@ import com.disney.hero_domain.Hero
 import com.disney.hero_domain.getLandscapeImageFullPath
 
 @Composable
-fun HeroDetail(id: Int, singleHero: MutableState<Hero?>, imageLoader: ImageLoader) {
+fun HeroDetail(singleHero: MutableState<Hero?>, imageLoader: ImageLoader) {
 
     Column(
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)

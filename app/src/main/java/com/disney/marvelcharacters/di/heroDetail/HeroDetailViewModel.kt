@@ -3,6 +3,7 @@ package com.disney.marvelcharacters.di.heroDetail
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.disney.core.*
@@ -16,14 +17,21 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class HeroDetailViewModel @Inject constructor(private val getSingleHeroById : GetSingleHeroById) : ViewModel() {
+class HeroDetailViewModel @Inject constructor(
+    private val getSingleHeroById: GetSingleHeroById,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
     val singleHero: MutableState<Hero?> = mutableStateOf(null)
 
+    init {
+        savedStateHandle.get<Int>("heroId")?.also { heroId ->
+            onTriggerEvent(HeroDetailEvents.GetSingleHero(heroId))
+        }
+    }
 
-
-    fun onTriggerEvent(event : HeroDetailEvents) {
-        when(event) {
+    fun onTriggerEvent(event: HeroDetailEvents) {
+        when (event) {
             is HeroDetailEvents.GetSingleHero -> {
                 getSingleHero(event.id)
             }
@@ -31,13 +39,13 @@ class HeroDetailViewModel @Inject constructor(private val getSingleHeroById : Ge
     }
 
 
-    private fun getSingleHero(id : Int) {
+    private fun getSingleHero(id: Int) {
         Log.i("get_heros_tg", "getHeroes! ")
         val logger = Logger("GetHerosTest")
         getSingleHeroById.execute(id).onEach { dataState ->
-            when(dataState){
+            when (dataState) {
                 is Response -> {
-                    when(dataState.uiComponent){
+                    when (dataState.uiComponent) {
                         is UIComponent.Dialog -> {
                             logger.log((dataState.uiComponent as UIComponent.Dialog).description)
                         }

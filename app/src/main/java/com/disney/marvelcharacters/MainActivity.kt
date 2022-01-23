@@ -29,8 +29,7 @@ import com.disney.marvelcharacters.di.heroDetail.HeroDetailViewModel
 import com.disney.marvelcharacters.di.heroList.HeroListViewModel
 import com.disney.marvelcharacters.ui.navigation.Screen
 import com.disney.marvelcharacters.ui.theme.MarvelCharactersTheme
-import com.disney.ui_heroDetail.HeroDetail
-import com.disney.ui_heroDetail.ui.HeroDetailEvents
+import com.disney.ui_heroDetail.ui.HeroDetail
 import com.disney.ui_heroList.ui.HeroList
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -209,10 +208,9 @@ class MainActivity : ComponentActivity() {
             arguments = Screen.HeroDetail.arguments
         ) { navBackStackEntry ->
             val viewModel: HeroDetailViewModel = hiltViewModel()
-            val id = navBackStackEntry.arguments?.getInt("heroId") as Int
-//            viewModel.getSingleHero(id)
-            viewModel.onTriggerEvent(HeroDetailEvents.GetSingleHero(id))
-            HeroDetail(id, viewModel.singleHero, imageLoader)
+//            val id = navBackStackEntry.arguments?.getInt("heroId") as Int
+//            viewModel.onTriggerEvent(HeroDetailEvents.GetSingleHero(id))
+            HeroDetail(viewModel.singleHero, imageLoader)
         }
     }
 
