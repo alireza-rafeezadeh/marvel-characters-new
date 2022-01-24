@@ -125,12 +125,18 @@ class MainActivity : ComponentActivity() {
                     BottomNavigation(
                         backgroundColor = colorResource(id = R.color.red)
                     ) {
-                        
+
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val currentDestination = navBackStackEntry?.destination
                         items.forEach { screen ->
                             BottomNavigationItem(
-                                icon = { Icon(painter = painterResource(id = R.drawable.ic_star), contentDescription = null, tint = Color.White) },
+                                icon = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_star),
+                                        contentDescription = null,
+                                        tint = Color.White
+                                    )
+                                },
 //                                label = { Text("") },
                                 selected = currentDestination?.hierarchy?.any {
                                     it.route == screen.route
@@ -154,8 +160,6 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                 }
-
-
 
 
                 /*
@@ -210,7 +214,9 @@ class MainActivity : ComponentActivity() {
             val viewModel: HeroDetailViewModel = hiltViewModel()
 //            val id = navBackStackEntry.arguments?.getInt("heroId") as Int
 //            viewModel.onTriggerEvent(HeroDetailEvents.GetSingleHero(id))
-            HeroDetail(viewModel.singleHero, imageLoader)
+            viewModel.singleHero.value.also { state ->
+                HeroDetail(state, imageLoader)
+            }
         }
     }
 

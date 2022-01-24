@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,83 +19,83 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
 import coil.compose.rememberImagePainter
-import com.disney.hero_domain.Hero
 import com.disney.hero_domain.getLandscapeImageFullPath
 
 @Composable
-fun HeroDetail(singleHero: MutableState<Hero?>, imageLoader: ImageLoader) {
+fun HeroDetail(state: HeroDetailState, imageLoader: ImageLoader) {
 
-    Column(
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-    ) {
+    state.hero?.also { singleHero ->
+        Column(
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        ) {
 
-        val painter = rememberImagePainter(
-            singleHero.value?.thumbnail?.getLandscapeImageFullPath(),
-            imageLoader = imageLoader,
+            val painter = rememberImagePainter(
+                singleHero.thumbnail.getLandscapeImageFullPath(),
+                imageLoader = imageLoader,
 //                        builder = {
 //                            placeholder(R)
 //                        }
-        )
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Image(
-            modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .fillMaxWidth()
-                .fillMaxHeight(0.3f),
-            painter = painter,
-            contentDescription = "description goes here",
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.3f),
+                painter = painter,
+                contentDescription = "description goes here",
 
-            contentScale = ContentScale.Crop,
-        )
+                contentScale = ContentScale.Crop,
+            )
 
-        Text(
-            text = "${singleHero.value?.name}",
+            Text(
+                text = "${singleHero.name}",
 
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .fillMaxWidth(),
-            style = TextStyle(textAlign = TextAlign.Center, fontSize = 25.sp)
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth(),
+                style = TextStyle(textAlign = TextAlign.Center, fontSize = 25.sp)
 
-        )
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
 
-        Text(text = "Comics")
-        Spacer(modifier = Modifier.height(4.dp))
+            Text(text = "Comics")
+            Spacer(modifier = Modifier.height(4.dp))
 
-        LazyRow() {
-            singleHero.value?.comics?.items?.let { list ->
-                items(list) { comic ->
-                    Box(
-                        modifier = Modifier
-                            .border(width = 1.dp, color = Color.Gray)
-                            .height(130.dp)
-                            .width(160.dp)
+            LazyRow() {
+                singleHero.comics.items.let { list ->
+                    items(list) { comic ->
+                        Box(
+                            modifier = Modifier
+                                .border(width = 1.dp, color = Color.Gray)
+                                .height(130.dp)
+                                .width(160.dp)
 
 //                        .height(45.dp)
-                    ) {
-                        Text(
-                            text = comic.name,
-                            modifier = Modifier.align(alignment = Alignment.Center),
-                            style = TextStyle(fontSize = 13.sp, textAlign = TextAlign.Center)
+                        ) {
+                            Text(
+                                text = comic.name,
+                                modifier = Modifier.align(alignment = Alignment.Center),
+                                style = TextStyle(fontSize = 13.sp, textAlign = TextAlign.Center)
 
-                        )
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
-
                 }
             }
-        }
 
 
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
 
-        /*Text(text = "Events")
+            /*Text(text = "Events")
         Spacer(modifier = Modifier.height(4.dp))
 
         LazyRow() {
@@ -126,35 +125,37 @@ fun HeroDetail(singleHero: MutableState<Hero?>, imageLoader: ImageLoader) {
 
 
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
 
-        Text(text = "Series")
-        Spacer(modifier = Modifier.height(4.dp))
+            Text(text = "Series")
+            Spacer(modifier = Modifier.height(4.dp))
 
-        LazyRow() {
-            singleHero.value?.series?.items?.let { list ->
-                items(list) { series ->
-                    Box(
-                        modifier = Modifier
-                            .border(width = 1.dp, color = Color.Gray)
-                            .height(130.dp)
-                            .width(160.dp)
+            LazyRow() {
+                singleHero.series.items.let { list ->
+                    items(list) { series ->
+                        Box(
+                            modifier = Modifier
+                                .border(width = 1.dp, color = Color.Gray)
+                                .height(130.dp)
+                                .width(160.dp)
 
 //                        .height(45.dp)
-                    ) {
-                        Text(
-                            text = series.name,
-                            modifier = Modifier.align(alignment = Alignment.Center),
-                            style = TextStyle(fontSize = 13.sp, textAlign = TextAlign.Center)
+                        ) {
+                            Text(
+                                text = series.name,
+                                modifier = Modifier.align(alignment = Alignment.Center),
+                                style = TextStyle(fontSize = 13.sp, textAlign = TextAlign.Center)
 
-                        )
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
-
                 }
             }
         }
+
     }
 
 

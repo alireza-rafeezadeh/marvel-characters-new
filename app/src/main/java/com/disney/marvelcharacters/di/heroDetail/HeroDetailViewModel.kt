@@ -7,9 +7,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.disney.core.*
-import com.disney.hero_domain.Hero
 import com.disney.hero_interactors.GetSingleHeroById
 import com.disney.ui_heroDetail.ui.HeroDetailEvents
+import com.disney.ui_heroDetail.ui.HeroDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,7 +22,7 @@ class HeroDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val singleHero: MutableState<Hero?> = mutableStateOf(null)
+    val singleHero: MutableState<HeroDetailState> = mutableStateOf(HeroDetailState())
 
     init {
         savedStateHandle.get<Int>("heroId")?.also { heroId ->
@@ -56,7 +56,7 @@ class HeroDetailViewModel @Inject constructor(
                 }
                 is Data -> {
                     dataState.data?.let { hero ->
-                        singleHero.value = hero
+                        singleHero.value = singleHero.value.copy(hero = hero)
                     }
                 }
                 is Loading -> {
