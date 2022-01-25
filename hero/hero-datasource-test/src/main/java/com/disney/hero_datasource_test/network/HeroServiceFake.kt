@@ -10,13 +10,13 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.http.*
 
 
-
 class HeroServiceFake {
 
     companion object Factory {
 
-        private val Url.hostWithPortIfRequired: String get() = if (port == protocol.defaultPort) host else hostWithPort
-        private val Url.fullUrl: String get() = "${protocol.name}://$hostWithPortIfRequired$fullPath"
+//        private val Url.hostWithPortIfRequired: String get() = if (port == protocol.defaultPort) host else hostWithPort
+//        private val Url.hostWithPortIfRequired: String get() = if (port == protocol.defaultPort) host else hostWithPort
+        private val Url.fullUrl: String get() = "${protocol.name}://$hostWithPort$fullPath"
 
         fun build(
             type: HeroServiceResponseType
@@ -25,18 +25,57 @@ class HeroServiceFake {
                 install(JsonFeature) {
                     serializer = KotlinxSerializer(
                         kotlinx.serialization.json.Json {
-                            ignoreUnknownKeys = true // if the server sends extra fields, ignore them
+                            ignoreUnknownKeys =
+                                true // if the server sends extra fields, ignore them
                         }
                     )
                 }
                 engine {
                     addHandler { request ->
-                        when (request.url.fullUrl) {
-                            EndPoints.HERO_STATS -> {
+                        if (request.url.fullUrl.contains(EndPoints.HERO_STATS)) {
+                            val responseHeaders = headersOf(
+                                "Content-Type" to listOf("application/json", "charset=utf-8")
+                            )
+                            when (type) {
+                                is HeroServiceResponseType.EmptyList -> {
+                                    respond(
+                                        HeroDataEmpty.data,
+                                        status = HttpStatusCode.OK,
+                                        headers = responseHeaders
+                                    )
+                                }
+                                is HeroServiceResponseType.Malformed -> {
+                                    respond(
+                                        HeroDataMalformed.data,
+                                        status = HttpStatusCode.OK,
+                                        headers = responseHeaders
+                                    )
+                                }
+                                is HeroServiceResponseType.GoodData -> {
+                                    respond(
+                                        HeroDataValid.data,
+                                        status = HttpStatusCode.OK,
+                                        headers = responseHeaders
+                                    )
+                                }
+                                is HeroServiceResponseType.Http404 -> {
+                                    respond(
+                                        HeroDataEmpty.data,
+                                        status = HttpStatusCode.NotFound,
+                                        headers = responseHeaders
+                                    )
+                                }
+                            }
+                        } else {
+                            error("Unhandled ${request.url.fullUrl}")
+                        }
+
+                        /*when (request.url.fullUrl) {
+                            EndPoints.HERO_STATS.addQueryParams() -> {
                                 val responseHeaders = headersOf(
                                     "Content-Type" to listOf("application/json", "charset=utf-8")
                                 )
-                                when(type){
+                                when (type) {
                                     is HeroServiceResponseType.EmptyList -> {
                                         respond(
                                             HeroDataEmpty.data,
@@ -68,7 +107,7 @@ class HeroServiceFake {
                                 }
                             }
                             else -> error("Unhandled ${request.url.fullUrl}")
-                        }
+                        }*/
                     }
                 }
             }
