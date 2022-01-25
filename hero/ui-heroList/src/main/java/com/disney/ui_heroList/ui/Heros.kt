@@ -29,9 +29,10 @@ import com.disney.ui_herolist.R
 @Composable
 fun HeroList(
     state: HeroListState,
+    events: (HeroListEvents) -> Unit,
     progressBarState: MutableState<ProgressBarState>,
     imageLoader: ImageLoader,
-    navigateToDetail : (Int) -> Unit
+    navigateToDetail: (Int) -> Unit
 ) {
 
     var text by remember { mutableStateOf("Hello") }
@@ -48,23 +49,26 @@ fun HeroList(
 
             item {
                 Spacer(modifier = Modifier.height(8.dp))
-                SearchField(text = text , onValueTextChanged =  {
-                    text = it
-                })
+                SearchField(
+                    text = state.heroName,
+                    onValueTextChanged = {
+                        text = it
+                        events(HeroListEvents.UpdateHeroName(it))
+                    })
 
             }
 
-            items(state.heroes) {
+            items(state.filteredHeroes) {
 
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(color = colorResource(id = R.color.card_background))
-                        .padding(16.dp)
-                        .clickable {
-                            navigateToDetail(it.id)
-                        }
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(color = colorResource(id = R.color.card_background))
+                    .padding(16.dp)
+                    .clickable {
+                        navigateToDetail(it.id)
+                    }
                 ) {
                     Log.i("hero_thumb", "HeroList: ${it.thumbnail.getImageFullPath()}")
                     val painter = rememberImagePainter(
@@ -78,8 +82,7 @@ fun HeroList(
                     Column(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .weight(3f)
-                            ,
+                            .weight(3f),
                     ) {
 
                         Text(
@@ -91,7 +94,8 @@ fun HeroList(
 
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = it.description, color = colorResource(id = R.color.text_description),
+                            text = it.description,
+                            color = colorResource(id = R.color.text_description),
 //                            modifier = Modifier.weight(2f),
                             fontSize = 10.sp,
                             maxLines = 3
@@ -104,8 +108,7 @@ fun HeroList(
 //                            .width(200.dp)
                             .weight(1.4f)
                             .height(100.dp)
-                            .clip(RoundedCornerShape(20.dp))
-                        ,
+                            .clip(RoundedCornerShape(20.dp)),
                         painter = painter,
                         contentDescription = "description goes here",
 

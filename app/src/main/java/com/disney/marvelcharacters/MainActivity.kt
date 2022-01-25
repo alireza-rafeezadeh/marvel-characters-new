@@ -196,6 +196,7 @@ class MainActivity : ComponentActivity() {
             val heroListViewModel: HeroListViewModel = hiltViewModel()
             HeroList(
                 state = heroListViewModel.state.value,
+                events = heroListViewModel::onTriggerEvent,
                 progressBarState = progressBarState,
                 imageLoader = imageLoader,
                 navigateToDetail = { heroId ->

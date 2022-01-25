@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.disney.core.*
 import com.disney.hero_interactors.GetHeros
+import com.disney.ui_heroList.ui.HeroListEvents
 import com.disney.ui_heroList.ui.HeroListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -28,6 +29,23 @@ class HeroListViewModel @Inject constructor(
     }
 
 
+    fun onTriggerEvent(event : HeroListEvents){
+        when(event) {
+
+            HeroListEvents.GetHeroes -> {
+
+            }
+
+            is HeroListEvents.UpdateHeroName -> {
+                updateHeroName(event.heroName)
+            }
+
+            HeroListEvents.FilterHeroes -> {
+                filterHeroes()
+            }
+        }
+    }
+
     fun getHeroes() {
 
         Log.i("get_heros_tg", "getHeroes! ")
@@ -46,6 +64,7 @@ class HeroListViewModel @Inject constructor(
                 }
                 is Data -> {
                     state.value = state.value.copy(heroes = dataState.data?: listOf())
+                    filterHeroes()
                 }
                 is Loading -> {
                     state.value = state.value.copy(progressBarState = dataState.progressBarState)
@@ -53,6 +72,24 @@ class HeroListViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
 
+    }
+
+
+    private fun updateHeroName(heroName: String) {
+        state.value = state.value.copy(heroName = heroName)
+        // TODO: check from mitch's code if it is correct:
+        filterHeroes()
+    }
+
+    private fun filterHeroes() {
+        state.value.heroes.filter {
+            it.name.lowercase().contains(state.value.heroName.lowercase() ?: "")
+        }.toMutableList().also {
+            state.value = state.value.copy(filteredHeroes = it)
+        }
+        val filtered = state.value.filteredHeroes
+
+        Log.i("filter_ed_l", "$filtered")
     }
 
 }
