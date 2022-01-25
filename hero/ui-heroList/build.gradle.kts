@@ -15,4 +15,9 @@ dependencies {
 
 //    "implementation" ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
 //    "kapt" ("androidx.hilt:hilt-compiler:1.0.0")
+
+    "androidTestImplementation"(project(Modules.heroDataSourceTest))
+    "androidTestImplementation"(ComposeTest.uiTestJunit4)
+    "debugImplementation"(ComposeTest.uiTestManifest)
+    "androidTestImplementation"(Junit.junit4)
 }

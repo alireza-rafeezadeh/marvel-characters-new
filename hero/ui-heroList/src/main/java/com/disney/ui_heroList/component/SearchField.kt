@@ -14,7 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.disney.ui_herolist.R
+import com.disney.ui_heroList.R
+
 
 @Composable
 fun SearchField(text: String, onValueTextChanged: (str: String) -> Unit) {

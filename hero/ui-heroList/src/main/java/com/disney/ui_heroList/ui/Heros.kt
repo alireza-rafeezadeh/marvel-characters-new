@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,8 +22,8 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.disney.core.ProgressBarState
 import com.disney.hero_domain.getImageFullPath
+import com.disney.ui_heroList.R
 import com.disney.ui_heroList.component.SearchField
-import com.disney.ui_herolist.R
 
 
 @ExperimentalCoilApi
@@ -87,7 +88,7 @@ fun HeroList(
 
                         Text(
                             text = it.name, color = colorResource(id = R.color.text),
-//                            modifier = Modifier.weight(2f),
+                            modifier = Modifier.testTag("HERO_TITLE"), // TODO: change
                             fontSize = 19.sp
                         )
 //                    Spacer(modifier = Modifier.height(32.dp))
